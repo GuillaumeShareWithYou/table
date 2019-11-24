@@ -1,4 +1,4 @@
-set(BINARY ${CMAKE_PROJECT_NAME}_lib)
+set(BINARY ${CMAKE_PROJECT_NAME})
 
 set(MAIN main.cpp)
 # source files

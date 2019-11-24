@@ -36,8 +36,17 @@ TEST(Line, courses_with_random_grade) {
 	EXPECT_EQ(line.size(), 2);
 }
 
-TEST(Line, write) {
+TEST(Line, write) { // skip tests because I don't want to type every time
 	Line line({ "A", "V", "C" });
-	line.write();
+	std::istringstream is("11 9 12");
+	line.write(is);
 	std::cout << line;
+}
+TEST(Line, average) {
+	Line line({ "A", "V", "C" });
+	line["A"] = 10;
+	line["V"] = 12;
+	line["C"] = 14;
+	const auto mean = line.average();
+	EXPECT_EQ(mean, 12);
 }

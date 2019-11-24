@@ -1,6 +1,6 @@
 #pragma once
 #include <optional>
-#include <ostream>
+#include <iostream>
 #include <map>
 
 class Cell {
@@ -13,4 +13,5 @@ public:
 
 	Cell& operator=(const int value);
 	friend std::ostream& operator<<(std::ostream& os, Cell& cell);
+	friend std::istream& operator>>(std::istream& is, Cell& cell);
 };

@@ -9,7 +9,9 @@ public:
 	Line() = default;
 	explicit Line(const std::vector<std::string>& courseNames);
 
-	void write();
+	double average();
+	void write(std::istream& stream);
 	
 	friend std::ostream& operator<<(std::ostream& os, Line& line);
+	friend std::istream& operator>>(std::istream& is, Line& line);
 };

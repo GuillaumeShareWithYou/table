@@ -2,6 +2,8 @@
 #include <iostream>
 #include <iomanip>
 #include <exception>
+#include <string>
+#include <sstream>
 
 Page::Page(const std::string& className, const std::vector<std::string>& students, const std::vector<std::string>& coursesNames) {
 	this->className = className;
@@ -11,23 +13,29 @@ Page::Page(const std::string& className, const std::vector<std::string>& student
 	}
 }
 
-void Page::write(const std::string& name) {
+void Page::write(const std::string& name, std::istream& stream) {
 	try {
 		Line& line = this->at(name);
 		if (line.empty()) {
 			std::cout << name << " is not in the page." << std::endl;
 			return;
 		}
-		for (std::pair<const std::string, Cell>& course : line) {
-			std::cout << course.first << " = ";
+		std::stringstream ss("");
+		for(auto& course: line) {
+			ss << course.first + " ";
+		}
+		std::cout << ss.str() << std::endl;
+		for (auto& course : line) {
 			int grade;
-			std::cin >> grade;
+			stream >> grade;
 			course.second.grade = grade;
 		}
 	}
 	catch (std::exception& e) {
 		std::cout << name << " does not exists in class : " << className << "\n";
 	}
+
+	stream.clear();
 }
 
 std::ostream& operator<<(std::ostream& os, Page& page) {

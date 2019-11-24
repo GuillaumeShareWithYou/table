@@ -21,3 +21,10 @@ std::ostream& operator<<(std::ostream& os, Cell& cell) {
 	return os;
 }
 
+std::istream& operator>>(std::istream& is, Cell& cell) {
+	int value = 0;
+	is >> value;
+	cell.grade = value;
+	return is;
+}
+
