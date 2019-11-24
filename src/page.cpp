@@ -4,6 +4,7 @@
 #include <exception>
 #include <string>
 #include <sstream>
+#include <windows.h>
 
 Page::Page(const std::string& className, const std::vector<std::string>& students, const std::vector<std::string>& coursesNames) {
 	this->className = className;
@@ -38,6 +39,21 @@ void Page::write(const std::string& name, std::istream& stream) {
 	stream.clear();
 }
 
+template <typename T>
+void fillWithSpace(std::ostream& os, T content, int size, const char* color="") {
+	const HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	if(std::strcmp(color, "red") == 0) {
+		// if color is red
+	
+		SetConsoleTextAttribute(hConsole, 12);
+	} else if(std::strcmp(color, "green") == 0) {
+		SetConsoleTextAttribute(hConsole, 2);
+	}
+	os << std::setw(size) << content;
+	// go back to black
+	SetConsoleTextAttribute(hConsole, 7);
+}
+
 std::ostream& operator<<(std::ostream& os, Page& page) {
 	const int tabWidth = 20;
 	const int leftWidth = 15;
@@ -51,17 +67,24 @@ std::ostream& operator<<(std::ostream& os, Page& page) {
 	auto firstLine = page.begin();
 	auto& courses = firstLine->second;
 	// print the courses names in header
-	os << std::setw(leftWidth) << "\\";
+	fillWithSpace(os, "\\", leftWidth);
 	for(auto& course: courses) {
-		os << std::setw(tabWidth) << course.first << "\t";
+		fillWithSpace(os, course.first, tabWidth);
+		os << "\t"; // maybe
 	}
+	fillWithSpace(os, "Average", tabWidth);
 	os << "\n";
 	// for every student, print name then grades
-	for(auto& lines : page) {
-		os << std::setw(leftWidth) << lines.first; // student name
-		for(auto& grade: lines.second) {
-			os << std::setw(tabWidth) << grade.second << "\t";
+	for(auto& line : page) {
+		auto studentName = line.first;
+		Line& studentGrades = line.second;
+		os << std::setw(leftWidth) << studentName; // student name
+		for(auto& grade: studentGrades) {
+			fillWithSpace(os, grade.second, tabWidth);
+			os << "\t";
 		}
+		const auto avg = studentGrades.average();
+		fillWithSpace(os, avg, tabWidth, avg < 10.0 ? "red": avg > 15 ? "green" : "");
 		os << "\n";
 	}
 	return os;

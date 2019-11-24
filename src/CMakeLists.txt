@@ -2,7 +2,7 @@ set(BINARY ${CMAKE_PROJECT_NAME})
 
 set(MAIN main.cpp)
 # source files
-set(SOURCES line.cpp page.cpp table.cpp cell.cpp)
+set(SOURCES line.cpp page.cpp cell.cpp)
 
 
 # Build a library with all project sources

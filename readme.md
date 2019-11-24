@@ -2,5 +2,6 @@
 
 - [x] Cell class
 	Cell has two attributes : value and isPresent but we can use std::optionnal to do it
-- [ ] Line class : map<course, Cell>
-- [ ] Page class: map<student, Line>
+- [x] Line class : map<course, Cell>
+- [x] Page class: map<student, Line>
+- [ ] Show average in table
