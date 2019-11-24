@@ -1,6 +1,5 @@
 #include "cell.h"
 #include <ostream>
-
 Cell::Cell(const int note) {
 	this->grade = note; // WORKS because overloaded operator=
 }
@@ -24,7 +23,9 @@ std::ostream& operator<<(std::ostream& os, Cell& cell) {
 std::istream& operator>>(std::istream& is, Cell& cell) {
 	int value = 0;
 	is >> value;
-	cell.grade = value;
+	if(value != -1) {
+		cell.grade = value;
+	}
 	return is;
 }
 

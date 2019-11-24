@@ -28,8 +28,7 @@ void Page::write(const std::string& name, std::istream& stream) {
 		std::cout << ss.str() << std::endl;
 		for (auto& course : line) {
 			int grade;
-			stream >> grade;
-			course.second.grade = grade;
+			stream >> course.second;
 		}
 	}
 	catch (std::exception& e) {
@@ -37,6 +36,26 @@ void Page::write(const std::string& name, std::istream& stream) {
 	}
 
 	stream.clear();
+}
+
+double Page::average(const std::string& courseName) {
+	double sum = 0;
+	int count = size();
+	// for every student
+	for(auto& student : *this) {
+		// get the grade of the courseName
+		auto gradeOpt = student.second[courseName].grade;
+		if(gradeOpt.has_value()) {
+			sum += gradeOpt.value();
+		} else {
+			--count;
+		}
+	}
+	if(count == 0) {
+		return 0;
+	}
+
+	return sum / count;
 }
 
 template <typename T>
@@ -70,7 +89,6 @@ std::ostream& operator<<(std::ostream& os, Page& page) {
 	fillWithSpace(os, "\\", leftWidth);
 	for(auto& course: courses) {
 		fillWithSpace(os, course.first, tabWidth);
-		os << "\t"; // maybe
 	}
 	fillWithSpace(os, "Average", tabWidth);
 	os << "\n";
@@ -81,11 +99,16 @@ std::ostream& operator<<(std::ostream& os, Page& page) {
 		os << std::setw(leftWidth) << studentName; // student name
 		for(auto& grade: studentGrades) {
 			fillWithSpace(os, grade.second, tabWidth);
-			os << "\t";
 		}
 		const auto avg = studentGrades.average();
 		fillWithSpace(os, avg, tabWidth, avg < 10.0 ? "red": avg > 15 ? "green" : "");
 		os << "\n";
+	}
+
+	fillWithSpace(os, "Average", leftWidth);
+
+	for(auto& c: courses) {
+		fillWithSpace(os, page.average(c.first), tabWidth);
 	}
 	return os;
 }

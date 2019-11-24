@@ -19,8 +19,21 @@ TEST(Page, try_access_known_name) {
 	ss.str("10 10 10");
 	page.write(titi, ss);
 
-	ss.str("10 0 8");
+	ss.str("10 -1 8");
 	page.write(tata, ss);
 	
 	std::cout << page;
+}
+TEST(Page, DISABLED_average_by_course) {
+	const std::string toto = "Toto";
+	const std::string titi = "Titi";
+	Page page( "classe de toto", { toto, titi }, { "Maths" });
+
+	std::stringstream ss{ "10" };
+	page.write(toto, ss);
+
+	ss.str("16");
+	page.write(titi, ss);
+
+	EXPECT_EQ(page.average("Maths"), 13);
 }
