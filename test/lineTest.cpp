@@ -34,5 +34,10 @@ TEST(Line, courses_with_random_grade) {
 	
 	EXPECT_FALSE(line.empty());
 	EXPECT_EQ(line.size(), 2);
+}
 
+TEST(Line, write) {
+	Line line({ "A", "V", "C" });
+	line.write();
+	std::cout << line;
 }

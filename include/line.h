@@ -9,6 +9,7 @@ public:
 	Line() = default;
 	explicit Line(const std::vector<std::string>& courseNames);
 
-
+	void write();
+	
 	friend std::ostream& operator<<(std::ostream& os, Line& line);
 };

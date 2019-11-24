@@ -9,11 +9,18 @@ Line::Line(const std::vector<std::string>& courseNames) {
 	});
 }
 
+void Line::write() {
+	int input;
+	for (auto& value : *this) {
+		std::cin >> input;
+		value.second = input;
+	}
+}
 
 
 std::ostream& operator<<(std::ostream& os, Line& line) {
 	for(auto& value: line) {
-		os << value.first << ": " << value.second << std::endl;
+		os << value.second << std::endl;
 	}
 	return os;
 }

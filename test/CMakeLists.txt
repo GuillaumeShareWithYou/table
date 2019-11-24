@@ -4,8 +4,16 @@ set(BINARY ${CMAKE_PROJECT_NAME}_tst)
 file(GLOB UNIT_TESTS
     "*.cpp"
 )
+
+set(TEST_TO_RUN pageTest.cpp)
 # create a test executable with test sources files
-add_executable(${BINARY} ${UNIT_TESTS})
+set(ALL_TEST 0)
+
+if(${ALL_TEST})
+	add_executable(${BINARY} ${UNIT_TESTS})
+else()
+	add_executable(${BINARY} ${TEST_TO_RUN})
+endif()
 # link the test exec to the project lib
 target_link_libraries(${BINARY} PUBLIC
 Personne-lib
